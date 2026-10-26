@@ -1,0 +1,1350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ANIMEVERSE | Anime Fan-Dub Projects</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0c0e16;
+      --bg-alt: #191b24;
+      --surface: #1d1f28;
+      --surface-2: #282a33;
+      --deep: #060810;
+      --text: #e1e1ee;
+      --text-muted: #cbc3d7;
+      --text-dim: #958ea0;
+      --violet: #a078ff;
+      --violet-deep: #6d3bd7;
+      --lilac: #d0bcff;
+      --cyan: #5de6ff;
+      --cyan-solid: #00cbe6;
+      --rose: #ff516a;
+      --pink: #ffb2b7;
+      --border: rgba(50, 52, 62, 0.4);
+      --radius: 16px;
+      --font-display: 'Space Grotesk', system-ui, sans-serif;
+      --font-body: 'Inter', system-ui, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    button, input { font: inherit; }
+
+    .container {
+      width: 100%;
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    .section { position: relative; overflow: hidden; padding: 80px 0; }
+    .section--alt { background: var(--bg-alt); }
+    .section--deep { background: var(--deep); }
+
+    .glow {
+      position: absolute;
+      border-radius: 9999px;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .section > .container { position: relative; z-index: 1; }
+
+    /* Typography */
+    .eyebrow {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 11px;
+      letter-spacing: 1.1px;
+      text-transform: uppercase;
+    }
+    .h2 {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 40px;
+      line-height: 48px;
+      letter-spacing: -0.8px;
+      color: var(--text);
+    }
+    .h3 {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 30px;
+      line-height: 36px;
+      letter-spacing: -0.45px;
+    }
+    .lead {
+      font-size: 15px;
+      line-height: 24px;
+      color: var(--text-muted);
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      font-family: var(--font-display);
+      font-weight: 700;
+      transition: transform 0.15s ease, filter 0.15s ease;
+    }
+    .btn:hover { transform: translateY(-1px); filter: brightness(1.08); }
+    .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+    .btn--primary {
+      background: linear-gradient(90deg, var(--violet), var(--violet-deep));
+      color: #3c0091;
+      height: 52px;
+      padding: 0 32px;
+      font-size: 20px;
+      letter-spacing: -0.2px;
+      box-shadow: 0 0 12px rgba(139, 92, 246, 0.45);
+    }
+    .btn--secondary {
+      background: var(--bg-alt);
+      color: var(--text);
+      height: 52px;
+      padding: 0 32px;
+      font-size: 20px;
+      letter-spacing: -0.2px;
+      box-shadow: 0 0 6px rgba(0, 0, 0, 0.5);
+    }
+    .btn--small {
+      background: var(--surface-2);
+      color: var(--text);
+      padding: 12px 24px;
+      font-size: 14px;
+      letter-spacing: 0.28px;
+      width: 100%;
+    }
+    .btn--solid {
+      background: var(--violet);
+      color: #340080;
+      padding: 12px 28px;
+      font-size: 20px;
+      letter-spacing: -0.2px;
+      box-shadow: 0 0 10px rgba(139, 92, 246, 0.4);
+    }
+    .link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: 0.28px;
+      color: var(--lilac);
+    }
+    .link:hover { text-decoration: underline; }
+    .icon { width: 14px; height: 14px; flex-shrink: 0; }
+
+    /* Badges */
+    .badge {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 9999px;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 11px;
+      letter-spacing: 0.66px;
+      text-transform: uppercase;
+      backdrop-filter: blur(12px);
+    }
+
+    /* ===== Section 1: Hero ===== */
+    .hero { padding: 96px 0 40px; background: var(--bg); }
+    .hero .glow-a {
+      width: 384px; height: 384px; top: -128px; left: -128px;
+      background: rgba(160, 120, 255, 0.2); filter: blur(130px);
+    }
+    .hero .glow-b {
+      width: 500px; height: 500px; right: 0; top: 50%;
+      background: rgba(0, 203, 230, 0.15); filter: blur(160px);
+      transform: translateY(-50%);
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 24px;
+      align-items: center;
+    }
+    .hero-copy {
+      grid-column: 1 / span 6;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .pill {
+      align-self: flex-start;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      border-radius: 9999px;
+      background: rgba(40, 42, 51, 0.8);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 0 15px rgba(139, 92, 246, 0.25);
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: 11px;
+      letter-spacing: 0.55px;
+      text-transform: uppercase;
+      color: var(--lilac);
+    }
+    .dot { width: 8px; height: 8px; border-radius: 9999px; background: var(--rose); flex-shrink: 0; }
+    .hero h1 {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 56px;
+      line-height: 64px;
+      letter-spacing: -1.68px;
+      color: var(--text);
+    }
+    .hero h1 .grad {
+      background: linear-gradient(90deg, var(--lilac), var(--violet), var(--cyan));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .hero-copy .lead { font-size: 18px; line-height: 29.25px; max-width: 576px; }
+    .hero-actions { display: flex; flex-direction: column; gap: 16px; padding-top: 8px; align-items: flex-start; }
+    .highlights {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 16px 24px;
+      padding-top: 16px;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 12px;
+      letter-spacing: 0.48px;
+      color: var(--text-muted);
+    }
+    .highlights .sep { width: 4px; height: 4px; border-radius: 9999px; background: #494454; }
+    .highlights span.emoji { margin-right: 4px; }
+
+    .hero-visual { grid-column: 7 / span 6; position: relative; }
+    .visual-frame {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      background:
+        radial-gradient(circle at 30% 40%, rgba(255, 81, 106, 0.35), transparent 45%),
+        radial-gradient(circle at 75% 30%, rgba(0, 203, 230, 0.35), transparent 50%),
+        linear-gradient(160deg, #1a1040 0%, #0c0e16 100%);
+    }
+    .visual-frame .label {
+      position: absolute; top: 14px; left: 16px;
+      font-family: var(--font-display); font-size: 10px; letter-spacing: 1px; color: var(--text-dim);
+    }
+    .now-airing {
+      position: absolute;
+      left: 24px;
+      bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 14px 20px;
+      border-radius: 12px;
+      background: rgba(50, 52, 62, 0.8);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 0 24px rgba(0, 0, 0, 0.8);
+      max-width: calc(100% - 48px);
+    }
+    .now-airing .dot { background: var(--cyan); width: 12px; height: 12px; }
+    .now-airing .title { font-family: var(--font-display); font-weight: 700; font-size: 15px; color: var(--text); }
+    .now-airing .meta { font-family: var(--font-display); font-weight: 500; font-size: 11px; letter-spacing: 0.66px; color: var(--cyan); }
+    .play {
+      margin-left: 8px;
+      width: 36px; height: 36px; border-radius: 9999px;
+      background: var(--violet);
+      display: grid; place-items: center; flex-shrink: 0;
+      color: #3c0091; font-size: 12px;
+    }
+
+    .scroll-hint {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      margin-top: 56px;
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: 11px;
+      letter-spacing: 1.1px;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+
+    /* ===== Section 2: Latest Releases ===== */
+    .section-header {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-width: 768px;
+    }
+    .section-header .eyebrow { color: var(--lilac); padding-top: 6px; }
+    .section-header .eyebrow.cyan { color: var(--cyan); }
+    .section-header .eyebrow.rose { color: var(--pink); }
+    .section-header .lead { max-width: 672px; }
+    .header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .episode-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 24px;
+      margin-top: 48px;
+    }
+    .episode-card {
+      background: var(--bg-alt);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+    }
+    .thumb {
+      position: relative;
+      height: 181px;
+      background: var(--bg);
+    }
+    .thumb .art { position: absolute; inset: 0; }
+    .thumb .badges {
+      position: absolute; top: 12px; left: 12px;
+      display: flex; gap: 8px;
+    }
+    .episode-body {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      flex: 1;
+      gap: 12px;
+    }
+    .episode-body h3 {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 20px;
+      letter-spacing: -0.2px;
+      color: var(--text);
+    }
+    .episode-body .ep {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: 11px;
+      letter-spacing: 0.55px;
+      text-transform: uppercase;
+    }
+    .episode-body .meta { font-size: 13px; color: var(--text-dim); }
+    .episode-body .desc { font-size: 13px; line-height: 20px; color: var(--text-muted); }
+    .episode-link {
+      margin-top: 18px;
+      padding-top: 2px;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: 0.28px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .centered { display: flex; justify-content: center; margin-top: 32px; }
+    .pill-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 24px; border-radius: 12px;
+      background: var(--surface);
+      font-family: var(--font-display); font-weight: 700; font-size: 14px; letter-spacing: 0.28px;
+      color: var(--text);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Art placeholders (CSS stand-ins for Figma raster artwork) */
+    .art-1 { background: radial-gradient(circle at 50% 40%, #ffb36b, transparent 40%), linear-gradient(180deg, #f2a0a8 0%, #3b2358 60%, #0c0e16 100%); }
+    .art-2 { background: radial-gradient(circle at 50% 50%, #ff7ad9, transparent 45%), linear-gradient(180deg, #2a0e3a 0%, #0c0e16 100%); }
+    .art-3 { background: radial-gradient(circle at 60% 40%, #8e7bff, transparent 45%), linear-gradient(180deg, #1a1b3a 0%, #0c0e16 100%); }
+    .art-4 { background: radial-gradient(circle at 50% 60%, #7fd4ff, transparent 40%), linear-gradient(180deg, #1c2540 0%, #0c0e16 100%); }
+    .art-5 { background: radial-gradient(circle at 40% 40%, #5de6ff, transparent 40%), linear-gradient(180deg, #2a1f55 0%, #0c0e16 100%); }
+    .art-6 { background: radial-gradient(circle at 60% 50%, #ff516a, transparent 45%), linear-gradient(180deg, #14162a 0%, #0c0e16 100%); }
+
+    .tag-latest { background: rgba(160, 120, 255, 0.3); color: var(--lilac); }
+    .tag-new { background: rgba(255, 81, 106, 0.3); color: var(--pink); }
+    .tag-recent { background: #32343e; color: #cbc3d7; }
+    .tag-dub { background: rgba(0, 203, 230, 0.3); color: var(--cyan); font-family: var(--font-display); font-weight: 500; }
+    .tag-dark { background: rgba(12, 14, 22, 0.8); color: var(--lilac); }
+    .tag-dev { background: rgba(12, 14, 22, 0.8); color: var(--cyan); }
+    .tag-prod { background: rgba(12, 14, 22, 0.8); color: var(--pink); }
+    .tag-soon { background: rgba(12, 14, 22, 0.8); color: var(--cyan); }
+
+    /* ===== Section 3: In Development ===== */
+    .dev-section .glow-violet {
+      width: 700px; height: 500px; left: 50%; top: 50%;
+      background: rgba(160, 120, 255, 0.1); filter: blur(150px);
+      transform: translate(-50%, -50%);
+    }
+    .dev-section .glow-ambient {
+      width: 465px; height: 384px; left: 45%; right: 25%; top: 0;
+      background: rgba(160, 120, 255, 0.1); filter: blur(140px);
+    }
+    .dev-section .dev-header { display: flex; flex-direction: column; gap: 8px; max-width: 768px; }
+    .dev-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 32px;
+      margin-top: 48px;
+    }
+    .dev-card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    }
+    .dev-card .thumb { height: 213px; border-radius: 12px; overflow: hidden; }
+    .dev-card .thumb .tag-pos { position: absolute; top: 12px; right: 12px; }
+    .dev-card .top { display: flex; flex-direction: column; gap: 4px; }
+    .dev-card h3 { margin-top: 16px; font-family: var(--font-display); font-weight: 700; font-size: 30px; line-height: 36px; letter-spacing: -0.45px; color: var(--text); }
+    .dev-card .sub { font-family: var(--font-display); font-weight: 500; font-size: 11px; letter-spacing: 0.55px; text-transform: uppercase; }
+    .dev-card .desc { padding: 8px 0 20px; font-size: 15px; line-height: 24px; color: var(--text-muted); }
+    .stage {
+      background: rgba(12, 14, 22, 0.6);
+      border-radius: 12px;
+      padding: 16px;
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .stage-row { display: flex; justify-content: space-between; align-items: center; font-family: var(--font-display); font-weight: 700; font-size: 12px; letter-spacing: 0.48px; }
+    .stage-row .name { display: inline-flex; align-items: center; gap: 6px; }
+    .stage-row .num { color: var(--text-dim); }
+    .bar { height: 6px; border-radius: 9999px; background: #32343e; overflow: hidden; }
+    .bar > span { display: block; height: 100%; border-radius: 9999px; }
+    .dev-card .btn--small { margin-top: 24px; }
+
+    .priority {
+      margin-top: 24px;
+      background: var(--deep);
+      border-radius: 16px;
+      padding: 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 32px;
+      flex-wrap: wrap;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    }
+    .priority .glow {
+      width: 320px; height: 320px; right: -80px; bottom: -80px;
+      background: rgba(160, 120, 255, 0.15); filter: blur(100px);
+    }
+    .priority-copy { display: flex; flex-direction: column; gap: 6px; max-width: 672px; position: relative; z-index: 1; }
+    .priority-copy .pill-tag {
+      align-self: flex-start;
+      background: rgba(160, 120, 255, 0.2);
+      color: var(--lilac);
+      padding: 4px 12px;
+      border-radius: 9999px;
+      font-family: var(--font-display); font-weight: 700; font-size: 11px; letter-spacing: 0.66px; text-transform: uppercase;
+    }
+    .priority-copy h3 { font-family: var(--font-display); font-weight: 700; font-size: 30px; line-height: 36px; letter-spacing: -0.45px; color: var(--text); padding-top: 2px; }
+    .priority-copy p { font-size: 15px; line-height: 24px; color: var(--text-muted); }
+
+    /* ===== Forms (newsletter / signup) ===== */
+    .signup-form {
+      display: flex;
+      gap: 12px;
+      align-items: stretch;
+      position: relative;
+      z-index: 1;
+      flex-wrap: wrap;
+    }
+    .signup-form input {
+      background: var(--surface);
+      border: 1px solid transparent;
+      color: var(--text);
+      border-radius: 12px;
+      padding: 14px 18px;
+      font-size: 15px;
+      min-width: 0;
+      flex: 1 1 180px;
+    }
+    .signup-form input::placeholder { color: var(--text-dim); }
+    .signup-form input:focus { outline: none; border-color: var(--violet); }
+    .signup-form .btn--solid { flex: 0 0 auto; }
+    .form-status {
+      width: 100%;
+      font-size: 13px;
+      min-height: 18px;
+      color: var(--text-muted);
+    }
+    .form-status.ok { color: var(--cyan); }
+    .form-status.err { color: var(--pink); }
+
+    /* ===== Section 4: Creator Pitch ===== */
+    .creator-grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 24px;
+      align-items: center;
+    }
+    .creator-left { grid-column: 1 / span 7; display: flex; flex-direction: column; gap: 24px; }
+    .creator-left .pitch-head { display: flex; flex-direction: column; gap: 8px; padding-top: 6px; }
+    .creator-left .eyebrow { color: var(--lilac); }
+    .creator-left .h2 { font-size: 40px; }
+    .creator-left .intro { font-size: 18px; line-height: 29.25px; color: var(--text-muted); }
+    .creator-left .sub { font-size: 15px; line-height: 24.38px; color: var(--text-muted); }
+    .benefits { display: flex; flex-direction: column; gap: 16px; padding-top: 8px; }
+    .benefit {
+      background: var(--bg-alt);
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+    }
+    .benefit-icon {
+      width: 48px; height: 48px; border-radius: 12px;
+      display: grid; place-items: center; flex-shrink: 0;
+      font-size: 20px;
+    }
+    .benefit h4 { font-family: var(--font-display); font-weight: 700; font-size: 18px; line-height: 28px; color: var(--text); }
+    .benefit p { font-size: 13px; line-height: 20px; color: var(--text-muted); }
+
+    .booking {
+      grid-column: 8 / span 5;
+      background: var(--surface);
+      border-radius: 24px;
+      padding: 36px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    }
+    .booking::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 4px;
+      background: linear-gradient(90deg, var(--lilac), var(--pink), var(--cyan));
+    }
+    .booking-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .booking-top .eyebrow { color: var(--lilac); letter-spacing: 0.55px; }
+    .booking h3 { padding-top: 6px; font-family: var(--font-display); font-weight: 700; font-size: 30px; line-height: 36px; letter-spacing: -0.45px; }
+    .booking .desc { font-size: 13px; line-height: 20px; color: var(--text-muted); padding-bottom: 12px; }
+    .price {
+      background: rgba(12, 14, 22, 0.8);
+      border-radius: 16px;
+      padding: 16px;
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .price .amount { font-family: var(--font-display); font-weight: 700; font-size: 40px; letter-spacing: -0.8px; }
+    .price .per { font-size: 13px; color: var(--text-dim); }
+    .included { display: flex; flex-direction: column; gap: 12px; padding: 18px 0; }
+    .included .label { font-family: var(--font-display); font-weight: 500; font-size: 11px; letter-spacing: 0.55px; color: var(--text-dim); text-transform: uppercase; }
+    .included li {
+      list-style: none;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      font-size: 13px;
+      color: var(--text);
+    }
+    .included li::before { content: '✓'; color: var(--cyan); font-weight: 700; }
+    .included ul { display: flex; flex-direction: column; gap: 12px; }
+    .book-btn { width: 100%; margin-top: 4px; }
+    .book-btn.btn--primary { height: auto; padding: 14px 32px; }
+    .disclaimer { text-align: center; padding-top: 16px; display: flex; flex-direction: column; gap: 12px; }
+    .disclaimer .q { font-family: var(--font-display); font-weight: 700; font-size: 12px; letter-spacing: 0.48px; color: var(--text-muted); }
+    .disclaimer .fine { font-family: var(--font-display); font-weight: 500; font-size: 10px; color: var(--text-dim); line-height: 12.5px; }
+
+    /* ===== Section 5: Testimonials ===== */
+    .testimonial-header { display: flex; flex-direction: column; gap: 8px; align-items: center; text-align: center; max-width: 768px; margin: 0 auto; }
+    .testimonial-header .eyebrow { color: var(--lilac); }
+    .testimonial-header .lead { max-width: 640px; }
+    .testi-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 24px;
+      margin-top: 48px;
+    }
+    .testi-card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+      gap: 24px;
+    }
+    .quote-mark { font-family: Georgia, 'Times New Roman', serif; font-size: 60px; line-height: 60px; color: rgba(208, 188, 255, 0.25); height: 40px; }
+    .stars { color: #ffb400; font-size: 15px; letter-spacing: 4px; margin-top: 4px; }
+    .testi-quote { font-style: italic; font-size: 15px; line-height: 24.38px; color: var(--text); margin-top: 16px; }
+    .author { display: flex; align-items: center; gap: 12px; padding-top: 24px; }
+    .avatar {
+      width: 44px; height: 44px; border-radius: 9999px;
+      display: grid; place-items: center; flex-shrink: 0;
+      font-family: var(--font-body); font-weight: 600; font-size: 15px;
+      box-shadow: 0 0 0 2px rgba(208, 188, 255, 0.4);
+    }
+    .author .name { font-family: var(--font-display); font-weight: 700; font-size: 15px; color: var(--text); }
+    .author .role { font-family: var(--font-display); font-weight: 500; font-size: 11px; letter-spacing: 0.66px; color: var(--text-dim); }
+
+    .feedback-cta {
+      margin-top: 24px;
+      background: var(--bg);
+      border-radius: 16px;
+      padding: 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .feedback-cta h4 { font-family: var(--font-display); font-weight: 700; font-size: 20px; letter-spacing: -0.2px; }
+    .feedback-cta p { font-size: 13px; line-height: 20px; color: var(--text-muted); margin-top: 4px; }
+
+    /* ===== Section 6: FAQ ===== */
+    .faq-wrap { max-width: 850px; margin: 0 auto; padding: 0 24px; display: flex; flex-direction: column; gap: 48px; }
+    .faq-header { display: flex; flex-direction: column; gap: 8px; align-items: center; text-align: center; }
+    .faq-header .eyebrow { color: var(--lilac); }
+    .faq-list { display: flex; flex-direction: column; gap: 14px; }
+    .faq-item {
+      background: var(--bg-alt);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .faq-q {
+      width: 100%;
+      background: none;
+      border: none;
+      color: var(--text);
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding: 20px;
+      text-align: left;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 18px;
+      line-height: 28px;
+    }
+    .faq-icon {
+      background: var(--surface);
+      width: 28px; height: 28px; border-radius: 9999px;
+      display: grid; place-items: center; flex-shrink: 0;
+      color: var(--lilac); font-size: 20px; line-height: 1;
+    }
+    .faq-a {
+      display: none;
+      padding: 0 20px 20px;
+      font-size: 15px;
+      line-height: 24.38px;
+      color: var(--text-muted);
+    }
+    .faq-item.open .faq-a { display: block; }
+
+    .still {
+      background: var(--bg-alt);
+      border-radius: 16px;
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      text-align: center;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+    }
+    .still h3 { font-family: var(--font-display); font-weight: 700; font-size: 20px; letter-spacing: -0.2px; }
+    .still p { font-size: 15px; line-height: 24px; color: var(--text-muted); padding-bottom: 12px; }
+
+    /* ===== Section 7: Footer ===== */
+    .footer { background: var(--deep); padding: 64px 0 48px; position: relative; }
+    .footer::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--lilac), transparent);
+      opacity: 0.4;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 48px 24px;
+      padding-bottom: 48px;
+    }
+    .footer-brand { grid-column: 1 / span 4; display: flex; flex-direction: column; gap: 16px; }
+    .brand-row { display: flex; align-items: center; gap: 12px; }
+    .logo-mark {
+      width: 32px; height: 32px; border-radius: 8px;
+      background: var(--lilac); color: #3c0091;
+      display: grid; place-items: center;
+      font-family: var(--font-body); font-weight: 600; font-size: 14px;
+    }
+    .brand-name { font-family: var(--font-display); font-weight: 700; font-size: 20px; letter-spacing: -0.5px; text-transform: uppercase; }
+    .tagline { font-family: var(--font-display); font-weight: 500; font-size: 15px; color: var(--lilac); font-style: italic; }
+    .footer-brand p.bio { font-size: 13px; line-height: 21px; color: var(--text-muted); max-width: 384px; }
+    .footer-col { display: flex; flex-direction: column; gap: 12px; }
+    .footer-col.explore { grid-column: 5 / span 2; }
+    .footer-col.services { grid-column: 7 / span 3; }
+    .footer-col.social { grid-column: 10 / span 3; }
+    .footer-col h5 {
+      font-family: var(--font-display); font-weight: 700; font-size: 11px; letter-spacing: 1.1px; text-transform: uppercase;
+    }
+    .footer-col a { font-size: 13px; line-height: 20px; color: var(--text-muted); }
+    .footer-col a:hover { color: var(--text); }
+    .social-row { display: flex; gap: 12px; padding-top: 4px; }
+    .social-btn {
+      width: 40px; height: 40px; border-radius: 12px;
+      background: var(--surface);
+      display: grid; place-items: center;
+      color: var(--text-muted); font-size: 16px;
+      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+      transition: color 0.15s ease;
+    }
+    .social-btn:hover { color: var(--text); }
+    .social-note { font-family: var(--font-display); font-weight: 500; font-size: 11px; letter-spacing: 0.66px; color: var(--text-dim); line-height: 14px; padding-top: 8px; }
+    .legal {
+      border-top: 1px solid var(--border);
+      padding: 24px 0;
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: 11px;
+      line-height: 18px;
+      color: var(--text-dim);
+    }
+    .bottom-bar {
+      border-top: 1px solid rgba(50, 52, 62, 0.2);
+      padding-top: 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: 13px;
+      color: var(--text-dim);
+    }
+    .back-top {
+      background: none; border: none; cursor: pointer; color: var(--text-muted);
+      font-family: var(--font-display); font-weight: 700; font-size: 12px; letter-spacing: 0.48px;
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .back-top:hover { color: var(--text); }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 1100px) {
+      .hero h1 { font-size: 48px; line-height: 56px; }
+      .episode-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .dev-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .dev-grid > :last-child { grid-column: 1 / -1; }
+    }
+
+    @media (max-width: 900px) {
+      .hero-copy, .hero-visual { grid-column: 1 / -1; }
+      .hero h1 { font-size: 44px; line-height: 52px; letter-spacing: -1px; }
+      .h2, .creator-left .h2 { font-size: 32px; line-height: 40px; }
+      .creator-left, .booking { grid-column: 1 / -1; }
+      .testi-grid { grid-template-columns: 1fr; }
+      .footer-brand { grid-column: 1 / -1; }
+      .footer-col.explore, .footer-col.services, .footer-col.social { grid-column: span 4; }
+      .footer-col.social { grid-column: 1 / -1; }
+      .footer-col.explore { grid-column: 1 / span 6; }
+      .footer-col.services { grid-column: 7 / span 6; }
+    }
+
+    @media (max-width: 640px) {
+      .container { padding: 0 16px; }
+      .section { padding: 56px 0; }
+      .hero { padding-top: 64px; }
+      .hero h1 { font-size: 36px; line-height: 44px; letter-spacing: -0.8px; }
+      .hero-copy .lead { font-size: 16px; }
+      .highlights { font-size: 11px; }
+      .episode-grid, .dev-grid { grid-template-columns: 1fr; }
+      .h2 { font-size: 30px; line-height: 38px; }
+      .dev-card h3, .priority-copy h3, .booking h3 { font-size: 24px; line-height: 30px; }
+      .priority, .feedback-cta, .still { padding: 24px; }
+      .booking { padding: 24px; }
+      .now-airing { left: 12px; right: 12px; bottom: 12px; max-width: none; }
+      .footer-col.explore, .footer-col.services { grid-column: 1 / -1; }
+      .faq-q { font-size: 16px; }
+      .btn--primary, .btn--secondary { width: 100%; font-size: 17px; padding: 0 20px; }
+      .hero-actions { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============ SECTION 1: HERO ============ -->
+  <header class="hero section" id="home">
+    <div class="glow glow-a"></div>
+    <div class="glow glow-b"></div>
+    <div class="container">
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <span class="pill"><span class="dot"></span>Independent Anime Fan-Dub Projects</span>
+          <h1>Your Favorite Anime.<br /><span class="grad">A Whole New Voice.</span></h1>
+          <p class="lead">Discover fan-dub projects, explore upcoming releases, and experience the anime moments you love through fresh voices and creative storytelling.</p>
+          <div class="hero-actions">
+            <a href="#latest" class="btn btn--primary">Watch Latest Episodes →</a>
+            <a href="#upcoming" class="btn btn--secondary">Explore Upcoming Projects</a>
+          </div>
+          <div class="highlights">
+            <span><span class="emoji" style="color: var(--cyan)">⚡</span>Fan-Made Projects</span>
+            <span class="sep"></span>
+            <span><span class="emoji" style="color: var(--lilac)">👥</span>Creative Community</span>
+            <span class="sep"></span>
+            <span><span class="emoji" style="color: var(--pink)">✨</span>New Releases</span>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <div class="visual-frame">
+            <span class="label">ANIMEVERSE</span>
+            <div class="now-airing">
+              <span class="dot"></span>
+              <div>
+                <div class="title">Now Airing: Neo Tokyo Echoes</div>
+                <div class="meta">Tamil Fan-Dub Multi-Track • 4K Dual Audio</div>
+              </div>
+              <span class="play">▶</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="scroll-hint">
+        <span>Scroll to explore</span>
+        <span>⌄</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============ SECTION 2: LATEST RELEASES ============ -->
+  <section class="section section--alt" id="latest">
+    <div class="glow" style="width:700px;height:500px;left:50%;top:50%;background:rgba(160,120,255,0.1);filter:blur(150px);transform:translate(-50%,-50%);"></div>
+    <div class="container">
+      <div class="header-row">
+        <div class="section-header">
+          <span class="eyebrow">Latest Releases</span>
+          <h2 class="h2">Fresh From the Studio</h2>
+          <p class="lead">The wait is over. Explore our latest fan-dub releases and discover new ways to experience your favorite anime moments.</p>
+        </div>
+        <a href="#latest" class="link">View All Episodes →</a>
+      </div>
+
+      <div class="episode-grid">
+        <article class="episode-card">
+          <div class="thumb">
+            <div class="art art-1 art"></div>
+            <div class="badges">
+              <span class="badge tag-latest">Latest</span>
+              <span class="badge tag-dub">Tamil Dub</span>
+            </div>
+          </div>
+          <div class="episode-body">
+            <div>
+              <h3>Shadow Reborn</h3>
+              <div class="ep" style="color: var(--cyan)">Episode 01 — Awakening</div>
+              <div class="meta" style="margin-top:8px">Released 2 days ago • 24 min</div>
+              <p class="desc" style="margin-top:8px">A banished warrior summons ancestral flames to protect his village against the</p>
+            </div>
+            <a href="#latest" class="episode-link" style="color: var(--lilac)">Watch Episode ⊳</a>
+          </div>
+        </article>
+
+        <article class="episode-card">
+          <div class="thumb">
+            <div class="art art-2 art"></div>
+            <div class="badges">
+              <span class="badge tag-new">New</span>
+              <span class="badge tag-dub">Tamil Dub</span>
+            </div>
+          </div>
+          <div class="episode-body">
+            <div>
+              <h3>Crimson Horizon</h3>
+              <div class="ep" style="color: var(--pink)">Episode 02 — Edge of Dawn</div>
+              <div class="meta" style="margin-top:8px">Released 4 days ago • 22 min</div>
+              <p class="desc" style="margin-top:8px">Traversing the forbidden border sector under relentless drone surveillance and</p>
+            </div>
+            <a href="#latest" class="episode-link" style="color: var(--pink)">Watch Episode ⊳</a>
+          </div>
+        </article>
+
+        <article class="episode-card">
+          <div class="thumb">
+            <div class="art art-3 art"></div>
+            <div class="badges">
+              <span class="badge tag-recent">Recent</span>
+              <span class="badge tag-dub">Tamil Dub</span>
+            </div>
+          </div>
+          <div class="episode-body">
+            <div>
+              <h3>Beyond the Stars</h3>
+              <div class="ep" style="color: var(--cyan)">Episode 01 — First Orbit</div>
+              <div class="meta" style="margin-top:8px">Released 1 week ago • 26 min</div>
+              <p class="desc" style="margin-top:8px">Interstellar cartographers breach an uncharted gravimetric anomaly beyond</p>
+            </div>
+            <a href="#latest" class="episode-link" style="color: var(--cyan)">Watch Episode ⊳</a>
+          </div>
+        </article>
+
+        <article class="episode-card">
+          <div class="thumb">
+            <div class="art art-4 art"></div>
+            <div class="badges">
+              <span class="badge tag-recent">Recent</span>
+              <span class="badge tag-dub">Tamil Dub</span>
+            </div>
+          </div>
+          <div class="episode-body">
+            <div>
+              <h3>Phantom Academy</h3>
+              <div class="ep" style="color: var(--lilac)">Episode 03 — Secret Protocol</div>
+              <div class="meta" style="margin-top:8px">Released 2 weeks ago • 21 min</div>
+              <p class="desc" style="margin-top:8px">Talented students uncover an artificial consciousness entity locked deep…</p>
+            </div>
+            <a href="#latest" class="episode-link" style="color: var(--lilac)">Watch Episode ⊳</a>
+          </div>
+        </article>
+      </div>
+
+      <div class="centered">
+        <a href="#latest" class="pill-btn">Explore All Releases →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SECTION 3: IN DEVELOPMENT ============ -->
+  <section class="section section--deep dev-section" id="upcoming" style="background: var(--bg-alt);">
+    <div class="glow glow-ambient"></div>
+    <div class="container">
+      <div class="dev-header section-header">
+        <span class="eyebrow cyan">In Development</span>
+        <h2 class="h2">The Next Adventure Starts Here</h2>
+        <p class="lead">Every great project starts with an idea. Get a first look at what's in development and follow the journey from concept to release.</p>
+      </div>
+
+      <div class="dev-grid">
+        <article class="dev-card">
+          <div class="top">
+            <div class="thumb">
+              <div class="art" style="background: radial-gradient(circle at 50% 40%, #c7a6ff, transparent 35%), linear-gradient(180deg, #2d2350 0%, #0c0e16 100%);"></div>
+              <span class="badge tag-dark tag-pos" style="position:absolute;top:12px;right:12px">In Development</span>
+            </div>
+            <h3>Project Eclipse</h3>
+            <div class="sub" style="color: var(--cyan)">A new world awakens</div>
+            <p class="desc">A mysterious world, unexpected alliances, and a perilous journey that changes everything for humanity's final frontier outpost.</p>
+          </div>
+          <div>
+            <div class="stage">
+              <div class="stage-row">
+                <span class="name" style="color: var(--cyan)"><span>✎</span>Concept &amp; Planning</span>
+                <span class="num">STAGE 01</span>
+              </div>
+              <div class="bar"><span style="width:40%; background: var(--cyan)"></span></div>
+            </div>
+            <button class="btn btn--small" type="button">View Project Details ↗</button>
+          </div>
+        </article>
+
+        <article class="dev-card">
+          <div class="top">
+            <div class="thumb">
+              <div class="art" style="background: radial-gradient(circle at 50% 50%, #ff6ad5, transparent 40%), linear-gradient(180deg, #2a0e3a 0%, #0c0e16 100%);"></div>
+              <span class="badge tag-prod" style="position:absolute;top:12px;right:12px">In Production</span>
+            </div>
+            <h3>Project Phantom</h3>
+            <div class="sub" style="color: var(--lilac)">Beyond the unknown</div>
+            <p class="desc">An atmospheric fan-dub project built around suspense, psychological discovery, and unforgettable multi-dimensional characters.</p>
+          </div>
+          <div>
+            <div class="stage">
+              <div class="stage-row">
+                <span class="name" style="color: var(--pink)"><span>🎙</span>Voice Recording</span>
+                <span class="num">STAGE 03</span>
+              </div>
+              <div class="bar"><span style="width:75%; background: var(--rose); box-shadow: 0 0 8px rgba(244,63,94,0.6)"></span></div>
+            </div>
+            <button class="btn btn--small" type="button">Follow Project ⎘</button>
+          </div>
+        </article>
+
+        <article class="dev-card">
+          <div class="top">
+            <div class="thumb">
+              <div class="art" style="background: radial-gradient(circle at 60% 40%, #9fd8ff, transparent 40%), linear-gradient(180deg, #1f3557 0%, #0c0e16 100%);"></div>
+              <span class="badge tag-soon" style="position:absolute;top:12px;right:12px">Coming Soon</span>
+            </div>
+            <h3>Project Nova</h3>
+            <div class="sub" style="color: var(--cyan)">The beginning of something new</div>
+            <p class="desc">A fresh creative project is taking shape with brand new cast auditions. Follow its progress as the next chapter comes together.</p>
+          </div>
+          <div>
+            <div class="stage">
+              <div class="stage-row">
+                <span class="name" style="color: var(--lilac)"><span>📁</span>Pre-Production</span>
+                <span class="num">STAGE 02</span>
+              </div>
+              <div class="bar"><span style="width:50%; background: var(--violet)"></span></div>
+            </div>
+            <button class="btn btn--small" type="button">Get Updates ⚲</button>
+          </div>
+        </article>
+      </div>
+
+      <!-- Newsletter / signup form: Name, Email, Phone -->
+      <div class="priority">
+        <span class="glow"></span>
+        <div class="priority-copy">
+          <span class="pill-tag">Priority Dispatch</span>
+          <h3>Want to Know When the Next Project Drops?</h3>
+          <p>Stay connected for release announcements, project updates, casting calls, and behind-the-scenes production news.</p>
+        </div>
+
+        <form class="signup-form" id="signupForm" novalidate>
+          <input type="text" id="name" name="name" placeholder="Your name" autocomplete="name" required />
+          <input type="email" id="email" name="email" placeholder="Enter your email address" autocomplete="email" required />
+          <input type="tel" id="phone" name="phone" placeholder="Phone number" autocomplete="tel" required />
+          <button type="submit" class="btn btn--solid" id="submitBtn">Get Project Updates</button>
+          <div class="form-status" id="formStatus" role="status" aria-live="polite"></div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SECTION 4: CREATOR PITCH ============ -->
+  <section class="section" id="services">
+    <div class="glow" style="width:384px;height:384px;left:40px;top:33%;background:rgba(160,120,255,0.15);filter:blur(160px);"></div>
+    <div class="container">
+      <div class="creator-grid">
+        <div class="creator-left">
+          <div class="pitch-head">
+            <span class="eyebrow">For Creators</span>
+            <h2 class="h2">Your Project Has Potential.<br />Let's Bring It to Life.</h2>
+          </div>
+          <p class="intro">Building a fan-dub website takes more than uploading episodes. You need a clear content strategy, a smooth website experience, and a plan that gives visitors a reason to return.</p>
+          <p class="sub">Get a fresh perspective on your project, identify opportunities for improvement, and leave with practical next steps tailored to your goals.</p>
+
+          <div class="benefits">
+            <div class="benefit">
+              <div class="benefit-icon" style="background: rgba(160,120,255,0.2); color: var(--lilac)">▤</div>
+              <div>
+                <h4>Website Review</h4>
+                <p>Identify opportunities to improve your layout, navigation, streaming player accessibility, and overall user experience.</p>
+              </div>
+            </div>
+            <div class="benefit">
+              <div class="benefit-icon" style="background: rgba(0,203,230,0.2); color: var(--cyan)">✳</div>
+              <div>
+                <h4>Content Strategy</h4>
+                <p>Organize your releases, schedule voice casting calls, and present your indie projects more effectively to fans.</p>
+              </div>
+            </div>
+            <div class="benefit">
+              <div class="benefit-icon" style="background: rgba(255,81,106,0.2); color: var(--pink)">↗</div>
+              <div>
+                <h4>Growth Roadmap</h4>
+                <p>Explore practical ways to improve discoverability, episode upload consistency, and community audience engagement.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <aside class="booking">
+          <div class="booking-top">
+            <span class="eyebrow">Audit Program</span>
+            <span class="badge" style="background: rgba(0,203,230,0.2); color: var(--cyan); letter-spacing: 0.66px; text-transform: none; font-size: 11px;">30 or 60 min session</span>
+          </div>
+          <h3>1:1 Project Audit</h3>
+          <p class="desc">A focused consultation session to understand your fan-dub project and plan your immediate next steps.</p>
+
+          <div class="price">
+            <span class="amount">₹2,499</span>
+            <span class="per">/ $49 USD per session</span>
+          </div>
+
+          <div class="included">
+            <span class="label">What's included</span>
+            <ul>
+              <li>Website and project presentation review</li>
+              <li>Personalized audio &amp; UX improvement suggestions</li>
+              <li>Content release strategy &amp; scheduling blueprint</li>
+              <li>Actionable next steps PDF report</li>
+            </ul>
+          </div>
+
+          <a href="#contact" class="btn btn--primary book-btn">Book Your Audit Session 🗓</a>
+
+          <div class="disclaimer">
+            <a href="#contact" class="q">Have a Question? Contact Us</a>
+            <p class="fine">* Recommendations are tailored to your project. Specific growth or revenue results are not guaranteed.</p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SECTION 5: TESTIMONIALS ============ -->
+  <section class="section section--alt" id="reviews">
+    <div class="container">
+      <div class="testimonial-header">
+        <span class="eyebrow">Community Feedback</span>
+        <h2 class="h2">Don't Just Take Our Word for It</h2>
+        <p class="lead">Every project is a learning experience. Discover what viewers and collaborators have to say about their experience with our work.</p>
+      </div>
+
+      <div class="testi-grid">
+        <article class="testi-card">
+          <div>
+            <div class="quote-mark">“</div>
+            <div class="stars">★★★★★</div>
+            <p class="testi-quote">"The audio balancing and voice talent on the Tamil dubs are on par with studio productions. Can't wait for Episode 2 of Shadow Reborn!"</p>
+          </div>
+          <div class="author">
+            <div class="avatar" style="background: var(--violet); color: #3c0091">AK</div>
+            <div>
+              <div class="name">Aravind Kumar</div>
+              <div class="role">Community Member &amp; Anime Fan</div>
+            </div>
+          </div>
+        </article>
+
+        <article class="testi-card">
+          <div>
+            <div class="quote-mark">“</div>
+            <div class="stars">★★★★★</div>
+            <p class="testi-quote">"The 1:1 audit gave our small fan-dub group a clear roadmap. We revamped our episode showcase and retention doubled within weeks."</p>
+          </div>
+          <div class="author">
+            <div class="avatar" style="background: var(--cyan-solid); color: #00363e">RN</div>
+            <div>
+              <div class="name">Rohit Nair</div>
+              <div class="role">Creator &amp; Audit Client</div>
+            </div>
+          </div>
+        </article>
+
+        <article class="testi-card">
+          <div>
+            <div class="quote-mark">“</div>
+            <div class="stars">★★★★★</div>
+            <p class="testi-quote">"ANIMEVERSE understands how to respect original creators while giving voice artists room to breathe and innovate on every script."</p>
+          </div>
+          <div class="author">
+            <div class="avatar" style="background: var(--rose); color: #e1e1ee">SP</div>
+            <div>
+              <div class="name">Sneha Priya</div>
+              <div class="role">Lead Voice Actor &amp; Collaborator</div>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <div class="feedback-cta">
+        <div>
+          <h4>Been Part of the Journey?</h4>
+          <p>Your feedback helps us improve our productions and strengthen our collective community experience.</p>
+        </div>
+        <a href="#contact" class="pill-btn">Share Your Feedback</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SECTION 6: FAQ ============ -->
+  <section class="section" id="faq">
+    <div class="faq-wrap">
+      <div class="faq-header">
+        <span class="eyebrow">Need Help?</span>
+        <h2 class="h2">Got Questions? We've Got Answers</h2>
+        <p class="lead">Everything you need to know about our fan-dub projects, episode releases, and creator consultation services.</p>
+      </div>
+
+      <div class="faq-list">
+        <div class="faq-item open">
+          <button class="faq-q" type="button">What is an anime fan-dub project? <span class="faq-icon">−</span></button>
+          <div class="faq-a">An anime fan-dub is an independent, non-commercial creative endeavor where voice artists, translators, and sound designers recreate dialogues in regional languages (such as Tamil). It allows fans to experience their cherished anime storylines through authentic local vocal performances and cultural nuance.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" type="button">How often do you release new episodes? <span class="faq-icon">+</span></button>
+          <div class="faq-a">Release schedules vary by project. Follow the Latest Releases section and our Discord for announcements.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" type="button">Can I suggest an anime for a future project? <span class="faq-icon">+</span></button>
+          <div class="faq-a">Yes. Reach out through the contact form and share the title and why you'd love to see it dubbed.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" type="button">Can I collaborate with your team as a voice actor or editor? <span class="faq-icon">+</span></button>
+          <div class="faq-a">Yes. Check Voice Actor Auditions in the footer or contact our team with your portfolio.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" type="button">What is the paid audit session? <span class="faq-icon">+</span></button>
+          <div class="faq-a">A 30 or 60 minute 1:1 consultation where we review your website or project and give tailored next steps.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" type="button">Can you guarantee that my website or channel will grow? <span class="faq-icon">+</span></button>
+          <div class="faq-a">No. Recommendations are tailored to your project, but specific growth or revenue results are not guaranteed.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" type="button">Is the content officially associated with anime studios? <span class="faq-icon">+</span></button>
+          <div class="faq-a">No. Our projects are independent fan creations unless an authorized relationship is explicitly disclosed.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" type="button">How can I contact you for inquiries or press? <span class="faq-icon">+</span></button>
+          <div class="faq-a">Use the Contact Us button below or the Contact Our Team link in the footer.</div>
+        </div>
+      </div>
+
+      <div class="still" id="contact">
+        <h3>Still Have Questions?</h3>
+        <p>We'd love to hear from you and discuss your anime ideas.</p>
+        <a href="mailto:hello@animeverse.example" class="btn btn--solid">Contact Us</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SECTION 7: FOOTER ============ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="brand-row">
+            <div class="logo-mark">AV</div>
+            <div class="brand-name">ANIMEVERSE</div>
+          </div>
+          <div class="tagline">"Every voice tells a story. Every fan keeps it alive."</div>
+          <p class="bio">A collective dedicated to transforming beloved anime epics into expressive, cinematic regional dubs. Built for voice creators, sound engineers, and enthusiasts.</p>
+        </div>
+
+        <div class="footer-col explore">
+          <h5 style="color: var(--lilac)">Explore</h5>
+          <a href="#home">Home</a>
+          <a href="#latest">New Episodes</a>
+          <a href="#upcoming">Upcoming Projects</a>
+          <a href="#reviews">Community Reviews</a>
+        </div>
+
+        <div class="footer-col services">
+          <h5 style="color: var(--cyan)">Creator Services</h5>
+          <a href="#services">Creator Services</a>
+          <a href="#services">Paid 1:1 Audit Sessions</a>
+          <a href="#services">Voice Actor Auditions</a>
+          <a href="#contact">Contact Our Team</a>
+        </div>
+
+        <div class="footer-col social">
+          <h5 style="color: var(--pink)">Follow Us</h5>
+          <div class="social-row">
+            <a href="#" class="social-btn" aria-label="YouTube">▶</a>
+            <a href="#" class="social-btn" aria-label="Instagram">◎</a>
+            <a href="#" class="social-btn" aria-label="Discord">💬</a>
+            <a href="#" class="social-btn" aria-label="Podcast">🎧</a>
+          </div>
+          <div class="social-note">Join 45,000+ members in our Discord soundstage for audition notifications and weekly watch parties.</div>
+        </div>
+      </div>
+
+      <div class="legal">
+        LEGAL NOTICE: Our fan-dub projects are independent fan creations unless otherwise stated. We are not affiliated with anime studios, publishers, or copyright holders unless an authorized relationship is explicitly disclosed. All third-party intellectual-property rights, characters, and source video remain with their respective owners. Content is intended strictly for creative commentary, cultural translation appreciation, and non-profit educational study.
+      </div>
+
+      <div class="bottom-bar">
+        <span>© 2026 ANIMEVERSE Studio. All rights reserved.</span>
+        <button class="back-top" type="button" onclick="window.scrollTo({top:0,behavior:'smooth'})">Back to Top ⌃</button>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ===== Config: paste your deployed Apps Script Web App URL here =====
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyFCl0gBJMu5EriUCMmTy0ZPBT93og1NHMYvBQSV87l0baYg2HJ3y7sFrpsxTQNdI-CZw/exec";
+
+    // ===== FAQ accordion =====
+    document.querySelectorAll('.faq-item').forEach(function (item) {
+      item.querySelector('.faq-q').addEventListener('click', function () {
+        const isOpen = item.classList.toggle('open');
+        item.querySelector('.faq-icon').textContent = isOpen ? '−' : '+';
+      });
+    });
+
+    // ===== Form submission (Apps Script via GET, works from file://) =====
+    const form = document.getElementById('signupForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const statusEl = document.getElementById('formStatus');
+
+    function setStatus(message, type) {
+      statusEl.textContent = message;
+      statusEl.className = 'form-status' + (type ? ' ' + type : '');
+    }
+
+    function showSuccess() {
+      setStatus("Thanks! You're on the list for project updates.", 'ok');
+      form.reset();
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Get Project Updates';
+    }
+
+    function showError() {
+      setStatus('Something went wrong. Please try again.', 'err');
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Get Project Updates';
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+
+      if (!name || !email || !phone) {
+        setStatus('Please fill in your name, email, and phone.', 'err');
+        return;
+      }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        setStatus('Please enter a valid email address.', 'err');
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending...';
+      setStatus('');
+
+      const url = SCRIPT_URL + "?" + new URLSearchParams({ name: name, email: email, phone: phone });
+
+      fetch(url, { method: "GET", mode: "no-cors" })
+        .then(() => showSuccess())
+        .catch(() => showError());
+    });
+  </script>
+</body>
+</html>
